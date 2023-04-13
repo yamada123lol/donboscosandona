@@ -7,8 +7,8 @@ import Paper from '@mui/material/Paper'
 import styles from 'components/LandingHero2.module.css'
 import Toolbar from '@mui/material/Toolbar'
 import Container from '@mui/material/Container'
-import Stack from '@mui/material/Stack'
 
+import { siteName, menu } from '/config/default'
 
 export default function LandingHero(props) {
     return (
@@ -16,8 +16,8 @@ export default function LandingHero(props) {
             maxWidth
             disableGutters={true}
             sx={{
-                height: '100vh',
-                padding: 'ovh',
+                height: props.height + 'vh',
+                padding: '0vh',
                 margin: '0vh',
                 width: '100%'
             }}>
@@ -26,14 +26,13 @@ export default function LandingHero(props) {
                     position: 'relative',
                     color: '#fff',
                     mb: 4,
-                    height: '100vh',
+                    height: props.height + 'vh',
                     backgroundImage: 'url(' + props.imageUrl + ')',
                     padding: 0,
                     margin: 0,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-
                 }}
             >
                 <Box
@@ -47,7 +46,7 @@ export default function LandingHero(props) {
                     }}
                 />
                 <Grid container >
-                    <Grid item md={5} xs={8} >
+                    <Grid item md={3} xs={8} >
                         <Box
                             sx={{
                                 position: 'relative',
@@ -62,13 +61,14 @@ export default function LandingHero(props) {
 
                         </Box>
                     </Grid>
-                    <Grid item md={7} className={styles.nav}>
+                    <Grid item md={9} className={styles.nav}>
                         <Box
                             sx={{
                                 position: 'relative',
                                 p: { xs: 2, md: 5 },
                                 pr: { md: 0 },
-                                top: 55,
+                                top: 0,
+                                right: 0,
                                 overflow: 'auto',
                                 width: '100%',
                             }}
@@ -83,24 +83,28 @@ export default function LandingHero(props) {
                                     overflowWrap: 'break-word',
                                 }}
                             >
-                                <Grid container>
+                                <Box sx={{
+                                    display: { xs: 'none', sm: 'block' },
+                                    position: 'absolute',
+                                    top: '1rem',
+                                    right: '5rem',
+                                }}>
                                     {
-                                        props.menu.map((settore) => (
-                                            <Grid item>
-                                                <Link className={styles.link_settori}
-                                                    color="inherit"
-                                                    noWrap
-                                                    key={settore.title}
-                                                    variant="body2"
-                                                    href={settore.url}
-                                                    sx={{ p: 1, flexShrink: 0, }}
-                                                >
-                                                    {settore.title}
-                                                </Link>
-                                            </Grid>
+                                        props.menu.map((item) => (
+                                            <Button className={styles.link_settori}
+                                                color="inherit"
+                                                noWrap
+                                                key={item.title}
+                                                href={item.url}
+                                                sx={{
+                                                    paddingLeft: '2rem',
+                                                }}
+                                            >
+                                                {item.title}
+                                            </Button>
                                         ))
                                     }
-                                </Grid>
+                                </Box>
                             </Toolbar>
                         </Box>
                     </Grid>
@@ -113,7 +117,7 @@ export default function LandingHero(props) {
                                 position: 'relative',
                                 p: { xs: 3, md: 6 },
                                 pr: { md: 0 },
-                                top: { md: 130, xs: 100 },
+                                top: (props.height / 3 - 10) + 'vh',
                             }}
                         >
                             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
@@ -122,42 +126,33 @@ export default function LandingHero(props) {
                             <Typography component="h5" color="inherit" paragraph>
                                 {props.description}
                             </Typography>
-                           
-
-
-                                {props.buttonUrl && 
-                           
-                                    <Button
-                                        variant="contained"
-                                        size="large"
-                                        color="error"
-                                        href={props.buttonUrl}
-                                        className={styles.btlanding}
-                                sx={{
-                                            marginTop: '1rem',
-                                        }}
-                                    >
-                                        {props.buttonText}
-                                    </Button>
-                                    }
-
-                        
-                         
+                            {props.buttonUrl &&
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    color="error"
+                                    href={props.buttonUrl}
+                                    className={styles.btlanding}
+                                    sx={{
+                                        marginTop: '1rem',
+                                        borderRadius: '2rem',
+                                        paddingLeft: '3rem',
+                                        paddingRight: '3rem',
+                                    }}
+                                >
+                                    {props.buttonText}
+                                </Button>
+                            }
                         </Box>
                     </Grid>
                 </Grid>
-
             </Paper>
         </Container>
     )
 }
 
 LandingHero.defaultProps = {
-    menu: [
-        { title: 'Chi siamo', url: '/chi-siamo' },
-        { title: 'Contatti', url: '/contatti' },
-        { title: 'Dove siamo', url: '/dove-siamo' },
-        { title: 'Privacy', url: '/privacy' },
-        { title: 'Trasparenza', url: '/trasparenza' },
-    ]
+    siteName: '',
+    menu: menu,
+    height: 80,
 }
